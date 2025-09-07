@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config";
 import connectDB from "./config/db.js";
 import notesRouter from "./Routes/noteRoutes.js";
+import rateLimiter from "./Middleware/rateLimiter.js";
 
 const app = express();
 const PORT = process.env.PORT || 8001;
@@ -10,7 +11,8 @@ const startServer = async () => {
   try {
     // Middleware to parse JSON
     app.use(express.json());
-
+    app.use(rateLimiter);
+    
     // Connect to MongoDB
     await connectDB();
 
