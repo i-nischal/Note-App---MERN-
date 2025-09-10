@@ -12,7 +12,7 @@ const notesRouter = express.Router();
 // RESTful routes
 notesRouter.get("/", getAllNotes); // GET all notes
 notesRouter.get("/:id", getNotesByID); // GET note by ID
-notesRouter.post("/", createNote); // POST create note
+notesRouter.post("/create", createNote); // POST create note
 notesRouter.put("/:id", updateNote); // PUT update note
 notesRouter.delete("/:id", deleteNote); // DELETE note
 

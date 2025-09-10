@@ -5,8 +5,8 @@ import "dotenv/config";
 // Limit: Allows 50 resquest per minute
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(50, "60 s"),
-  analytics: true, 
+  limiter: Ratelimit.slidingWindow(10, "1 s"),
+  analytics: true,
 });
 
 export default ratelimit;
