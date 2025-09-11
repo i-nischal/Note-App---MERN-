@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import RateLimitedUI from "../Components/RateLimitedUI";
-import axios from "axios";
 import toast from "react-hot-toast";
 import Loading from "../Components/Loading";
 import NoteCard from "../Components/NoteCard";
 import NotesNotFound from "./NotesNotFound";
+import axiosInstance from "../lib/axios";
 
 function Home() {
   const [notes, setNotes] = useState([]);
@@ -14,7 +14,7 @@ function Home() {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/notes");
+        const res = await axiosInstance.get("/notes");
         setNotes(res.data.notes);
       } catch (error) {
         console.error("Error fetching notes data.");

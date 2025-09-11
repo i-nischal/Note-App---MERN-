@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
-import axios from "axios";
+import axiosInstance from "../lib/axios";
 
 function CreateNote() {
   const [title, setTitle] = useState("");
@@ -20,13 +20,16 @@ function CreateNote() {
 
     setLoading(true);
     try {
-      await axios.post("http://localhost:8000/api/notes/create", {
+      await axiosInstance.post("/notes/create", {
         title,
         content,
       });
       toast.success("Note created successfully");
       navigate("/"); // ✅ Redirect after success
     } catch (error) {
+      if (error.res.status === 429) {
+        toast.error("Too many requests");
+      }
       toast.error("Note failed to create");
     } finally {
       setLoading(false);

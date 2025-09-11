@@ -1,8 +1,23 @@
 import { PenSquareIcon, Trash2Icon } from "lucide-react";
 import { useNavigate } from "react-router";
+import axiosInstance from "../lib/axios";
+import toast from "react-hot-toast";
 
 function NoteCard({ note, setNotes }) {
   const navigate = useNavigate();
+
+  const handleDelete = async (e, id) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!window.confirm("Delete the delete ?")) return;
+    try {
+      const deleteNote = axiosInstance.delete(`/notes/${id}`);
+      setNotes((prev) => prev.filter((n) => n._id !== id));
+      toast.success("Note Deleted successfully");
+    } catch (error) {
+      toast.error("Failed to delete");
+    }
+  };
   return (
     <div
       className="border border-gray-200 rounded-lg p-4
@@ -22,8 +37,12 @@ function NoteCard({ note, setNotes }) {
         </p>
 
         <div className="flex space-x-3">
-          <PenSquareIcon className="w-5 h-5 hover:text-indigo-800" />
-          <Trash2Icon className="w-5 h-5 text-red-500 hover:text-red-700" />
+          <button>
+            <PenSquareIcon className="w-5 h-5 hover:text-indigo-800" />
+          </button>
+          <button onClick={(e) => handleDelete(e, note._id)}>
+            <Trash2Icon className="w-5 h-5 text-red-500 hover:text-red-700" />
+          </button>
         </div>
       </div>
     </div>
